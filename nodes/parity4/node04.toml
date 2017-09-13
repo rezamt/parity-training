@@ -1,0 +1,14 @@
+[parity]
+chain = "demo-spec.json"
+base_path = "/Users/reza/projects/parity-training/parity4"
+[network]
+port = 30304
+[rpc]
+port = 8544
+apis = ["web3", "eth", "net", "personal", "parity", "parity_set", "traces", "rpc", "parity_accounts"]
+[ui]
+port = 8184
+[websockets]
+port = 8454
+[ipc]
+disable = true

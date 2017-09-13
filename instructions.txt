@@ -1,0 +1,47 @@
+
+
+Parity configuration Generator: https://paritytech.github.io/parity-config-generator/
+
+
+parity  --chain demo-spec.json -d ./nodes/parity0 --port 30300 --jsonrpc-port 8540 --ui-port 8180 --ws-port 8540 --jsonrpc-apis web3,eth,net,personal,parity,parity_set,traces,rpc,parity_accounts
+
+
+parity  --chain demo-spec.json -d ./nodes/parity1 --port 30300 --jsonrpc-port 8540 --ui-port 8180 --ws-port 8540 --jsonrpc-apis web3,eth,net,personal,parity,parity_set,traces,rpc,parity_accounts
+
+
+
+
+- Authority Node Account 01
+curl --data '{"jsonrpc":"2.0","method":"parity_newAccountFromPhrase","params":["node0", "node0"],"id":0}' -H "Content-Type: application/json" -X POST localhost:8541
+- User Account 
+curl --data '{"jsonrpc":"2.0","method":"parity_newAccountFromPhrase","params":["user", "user"],"id":0}' -H "Content-Type: application/json" -X POST localhost:8541
+
+
+- Authority Node Account 02
+curl --data '{"jsonrpc":"2.0","method":"parity_newAccountFromPhrase","params":["node1", "node1"],"id":0}' -H "Content-Type: application/json" -X POST localhost:8542
+
+
+
+# Joining The Nodes
+
+# Getting Node 1 information
+curl --data '{"jsonrpc":"2.0","method":"parity_enode","params":[],"id":0}' -H "Content-Type: application/json" -X POST localhost:8541
+
+{"jsonrpc":"2.0","result":"enode://3019bec4a3df21b90908ddfc0c7c25a2eaa996bc949a2fb0e5c4bccf1423c6e3c80a3f36473b5ea35eb4cbd2ea3c84de8217056413494ab33e5ed7adc6b4c3c7@192.168.0.101:30301","id":0}
+
+
+# Joining Node 2 to Node 1.
+curl --data '{"jsonrpc":"2.0","method":"parity_addReservedPeer","params":["enode://3019bec4a3df21b90908ddfc0c7c25a2eaa996bc949a2fb0e5c4bccf1423c6e3c80a3f36473b5ea35eb4cbd2ea3c84de8217056413494ab33e5ed7adc6b4c3c7@192.168.0.101:30301"],"id":0}' -H "Content-Type: application/json" -X POST localhost:8542
+
+
+# Adding none Authority Node
+
+curl --data '{"jsonrpc":"2.0","method":"parity_addReservedPeer","params":["enode://a831263d40c49bc0526e78746f48b5b3503f07539f60da78ed5146614717b3e9670173678dbd85c3809f13e7b2e42dc7e5aafcdde4dbb1b4c8e650171ad66197@192.168.0.101:30302"],"id":0}' -H "Content-Type: application/json" -X POST localhost:8543
+
+
+
+
+
+
+
+
